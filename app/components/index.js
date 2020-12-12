@@ -1,3 +1,4 @@
+import CacheImage from './cache-image';
 import MovieItem from './movie-item';
 
-export {MovieItem};
+export {MovieItem, CacheImage};

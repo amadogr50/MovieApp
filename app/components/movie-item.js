@@ -1,9 +1,10 @@
 import React from 'react';
 
-import {Image, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import movieDBImagesModule from '../modules/movie-db-images-module';
 import {MoviePropTypes} from '../prop-types';
 import dimensions from '../theme/dimensions';
+import CacheImage from './cache-image';
 
 const styles = StyleSheet.create({
   image: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
 const MovieItem = ({width, movie, ...props}) => {
   return (
     <View {...props}>
-      <Image
+      <CacheImage
         style={styles.image}
         source={{
           uri: movieDBImagesModule.getImageUrl(width, movie.poster_path),
