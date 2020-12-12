@@ -23,7 +23,6 @@ DerivedData
 
 # Android/IntelliJ
 #
-build/
 .idea
 .gradle
 local.properties
@@ -61,3 +60,5 @@ buck-out/
 # Project exclude paths
 /android/
 /ios/
+
+*.env
