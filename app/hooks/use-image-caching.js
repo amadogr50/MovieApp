@@ -31,6 +31,8 @@ const useImageCaching = (remoteUri) => {
       setSource({
         uri,
       });
+
+      return;
     })();
   }, [remoteUri]);
 

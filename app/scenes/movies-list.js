@@ -1,5 +1,10 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, useWindowDimensions} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  useWindowDimensions,
+} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {usePaginatedQuery} from 'react-query';
 import movieDBInstance from '../services/movie-db-instance';
@@ -20,7 +25,9 @@ const MoviesList = ({navigation}) => {
   const [enabled, setEnabled] = useState(true);
 
   const windowWidth = useWindowDimensions().width;
-  const imageWidth = movieDBImagesModule.getImageWidth(windowWidth);
+  const imageWidth = movieDBImagesModule.getImageWidth(
+    windowWidth / DeviceInfo.isTablet() ? 5 : 3,
+  );
 
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState([]);
@@ -64,7 +71,7 @@ const MoviesList = ({navigation}) => {
   };
 
   return (
-    <Scene
+    <SafeAreaView
       isLoading={isLoading}
       isError={isError}
       error={error}
@@ -76,9 +83,10 @@ const MoviesList = ({navigation}) => {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         onEndReached={onEndReached}
+        showsVerticalScrollIndicator={false}
         numColumns={DeviceInfo.isTablet() ? 5 : 3}
       />
-    </Scene>
+    </SafeAreaView>
   );
 };
 
