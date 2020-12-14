@@ -12,6 +12,7 @@ import movieDBEndpoints from '../services/movie-db-endpoints';
 import movieDBImagesModule from '../modules/movie-db-images-module';
 import dimensions from '../theme/dimensions';
 import {MovieItem} from '../components';
+import ROUTES from '../navigation/routes';
 
 const styles = StyleSheet.create({
   image: {
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MoviesList = ({}) => {
+const MoviesList = ({navigation}) => {
   const windowWidth = useWindowDimensions().width;
   const imageWidth = movieDBImagesModule.getImageWidth(windowWidth);
 
@@ -39,7 +40,16 @@ const MoviesList = ({}) => {
   });
 
   const renderItem = ({item: movie}) => {
-    return <MovieItem style={styles.image} movie={movie} width={imageWidth} />;
+    return (
+      <MovieItem
+        onPress={() => {
+          navigation.navigate(ROUTES.MOVIE_DETAIL, {id: movie.id});
+        }}
+        style={styles.image}
+        movie={movie}
+        width={imageWidth}
+      />
+    );
   };
 
   const keyExtractor = (item) => item.id;

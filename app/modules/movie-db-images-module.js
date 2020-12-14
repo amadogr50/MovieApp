@@ -1,3 +1,5 @@
+const PROFILE_ASPECT_RATIO = 4 / 6;
+
 const IMAGE_WIDTHS = [92, 154, 185, 342, 500, 780];
 
 const getImageWidth = (width) => {
@@ -9,6 +11,7 @@ const getImageUrl = (width, imagePath) => {
 };
 
 const movieDBImagesModule = {
+  PROFILE_ASPECT_RATIO,
   getImageWidth,
   getImageUrl,
 };
