@@ -147,7 +147,7 @@ const MovieDetail = ({route}) => {
             {DeviceInfo.isTablet() ? (
               <MovieInfoTablet movie={movie?.data} />
             ) : (
-              <MovieInfoPhone movie={movie.data} />
+              <MovieInfoPhone movie={movie?.data} />
             )}
             {isImagesSuccess &&
               (images.data.backdrops.length > 0 ||

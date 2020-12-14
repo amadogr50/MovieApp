@@ -1,7 +1,6 @@
 import React from 'react';
 import {StyleSheet, useWindowDimensions, View} from 'react-native';
 import globalStyles from '../theme/global-styles';
-import {CacheImage} from './index';
 import movieDBImagesModule from '../modules/movie-db-images-module';
 import {Body, Subtitle} from '../typography';
 import translations from '../i18n/translations';
@@ -9,8 +8,12 @@ import {MoviePropTypes} from '../prop-types';
 import {useTranslation} from 'react-i18next';
 import theme from '../theme/theme';
 import dimensions from '../theme/dimensions';
+import CacheImage from './cache-image';
 
 const styles = StyleSheet.create({
+  root: {
+    flexDirection: 'row',
+  },
   field: {
     fontWeight: '700',
   },
@@ -19,7 +22,7 @@ const styles = StyleSheet.create({
   },
   info: {
     marginHorizontal: dimensions.s,
-    flex: 1,
+    flex: 2,
   },
   row: {
     flexDirection: 'row',
@@ -41,7 +44,7 @@ const MovieInfoTablet = ({movie}) => {
 
   return (
     <>
-      <View style={[styles.row, globalStyles.verticalSpacing]}>
+      <View style={[styles.root, globalStyles.verticalSpacing]}>
         <CacheImage
           style={styles.poster}
           uri={movieDBImagesModule.getImageUrl(
