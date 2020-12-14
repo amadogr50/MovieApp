@@ -35,12 +35,10 @@ const CastItem = ({style, cast, ...props}) => {
       {cast.profile_path ? (
         <CacheImage
           style={styles.image}
-          source={{
-            uri: movieDBImagesModule.getImageUrl(
-              movieDBImagesModule.getImageWidth(125),
-              cast.profile_path,
-            ),
-          }}
+          uri={movieDBImagesModule.getImageUrl(
+            movieDBImagesModule.getImageWidth(125),
+            cast.profile_path,
+          )}
         />
       ) : (
         <View style={styles.imageUnknown}>

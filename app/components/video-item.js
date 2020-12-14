@@ -26,9 +26,7 @@ const VideoItem = ({video, ...props}) => {
             borderRadius: dimensions.xxs,
             marginBottom: dimensions.xs,
           }}
-          source={{
-            uri: youtubeApiModule.getThumbnailUrl(video.key),
-          }}
+          uri={youtubeApiModule.getThumbnailUrl(video.key)}
         />
       </TouchableOpacity>
       <Body>{video.type}</Body>

@@ -2,31 +2,37 @@ import {useEffect, useState} from 'react';
 import * as shorthash from 'shorthash';
 import * as RNFS from 'react-native-fs';
 
-const useImageCaching = (uri) => {
+const imageExtensionExtractorRegex = /(?:\.([^.]+))?$/;
+
+const useImageCaching = (remoteUri) => {
   const [source, setSource] = useState(null);
 
   useEffect(() => {
     (async () => {
-      const name = shorthash.unique(uri);
-      const path = `${RNFS.CachesDirectoryPath}${name}`;
+      const name = shorthash.unique(remoteUri);
+      const path = `${RNFS.CachesDirectoryPath}${name}${
+        imageExtensionExtractorRegex.exec(remoteUri)[0]
+      }`;
+      const uri = `file:///${path}`;
+
       const image = await RNFS.exists(path);
       if (image.exists) {
         setSource({
-          uri: image.uri,
+          uri,
         });
         return;
       }
 
-      const newImage = await RNFS.downloadFile({
-        fromUrl: uri,
+      await RNFS.downloadFile({
+        fromUrl: remoteUri,
         toFile: path,
-      });
+      }).promise;
 
       setSource({
-        uri: newImage.uri,
+        uri,
       });
     })();
-  }, [uri]);
+  }, [remoteUri]);
 
   return {
     source,

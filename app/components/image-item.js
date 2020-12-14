@@ -14,12 +14,10 @@ const ImageItem = ({image, ...props}) => {
           aspectRatio: image.aspect_ratio,
           borderRadius: dimensions.xxs,
         }}
-        source={{
-          uri: movieDBImagesModule.getImageUrl(
-            movieDBImagesModule.getImageWidth(150 * image.aspect_ratio),
-            image.file_path,
-          ),
-        }}
+        uri={movieDBImagesModule.getImageUrl(
+          movieDBImagesModule.getImageWidth(150 * image.aspect_ratio),
+          image.file_path,
+        )}
       />
     </View>
   );

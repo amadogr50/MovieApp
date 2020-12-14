@@ -137,12 +137,10 @@ const MovieDetail = ({route}) => {
                 height: screenHeight * 0.5,
                 width: screenWidth,
               }}
-              source={{
-                uri: movieDBImagesModule.getImageUrl(
-                  movieDBImagesModule.getImageWidth(screenWidth),
-                  movie?.data?.backdrop_path,
-                ),
-              }}
+              uri={movieDBImagesModule.getImageUrl(
+                movieDBImagesModule.getImageWidth(screenWidth),
+                movie?.data?.backdrop_path,
+              )}
             />
           );
         }}>
@@ -164,12 +162,10 @@ const MovieDetail = ({route}) => {
             <View style={[styles.row, globalStyles.verticalSpacing]}>
               <CacheImage
                 style={styles.poster}
-                source={{
-                  uri: movieDBImagesModule.getImageUrl(
-                    movieDBImagesModule.getImageWidth(screenWidth),
-                    movie?.data?.poster_path,
-                  ),
-                }}
+                uri={movieDBImagesModule.getImageUrl(
+                  movieDBImagesModule.getImageWidth(screenWidth),
+                  movie?.data?.poster_path,
+                )}
               />
               <View style={styles.info}>
                 <View style={styles.row}>

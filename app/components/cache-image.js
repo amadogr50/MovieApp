@@ -5,7 +5,7 @@ import {useImageCaching} from '../hooks';
 const CacheImage = ({uri, ...props}) => {
   const {source} = useImageCaching(uri);
 
-  return <Image source={source} {...props} />;
+  return <Image {...props} source={source} />;
 };
 
 CacheImage.propTypes = {};

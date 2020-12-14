@@ -18,9 +18,7 @@ const MovieItem = ({width, movie, ...props}) => {
     <TouchableOpacity {...props}>
       <CacheImage
         style={styles.image}
-        source={{
-          uri: movieDBImagesModule.getImageUrl(width, movie.poster_path),
-        }}
+        uri={movieDBImagesModule.getImageUrl(width, movie.poster_path)}
       />
     </TouchableOpacity>
   );

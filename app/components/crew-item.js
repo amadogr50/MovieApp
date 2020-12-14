@@ -35,12 +35,10 @@ const CrewItem = ({style, crew, ...props}) => {
       {crew.profile_path ? (
         <CacheImage
           style={styles.image}
-          source={{
-            uri: movieDBImagesModule.getImageUrl(
-              movieDBImagesModule.getImageWidth(125),
-              crew.profile_path,
-            ),
-          }}
+          uri={movieDBImagesModule.getImageUrl(
+            movieDBImagesModule.getImageWidth(125),
+            crew.profile_path,
+          )}
         />
       ) : (
         <View style={styles.imageUnknown}>
