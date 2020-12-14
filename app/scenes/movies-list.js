@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {FlatList, StyleSheet, useWindowDimensions} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {usePaginatedQuery} from 'react-query';
 import movieDBInstance from '../services/movie-db-instance';
 import movieDBEndpoints from '../services/movie-db-endpoints';
@@ -75,7 +76,7 @@ const MoviesList = ({navigation}) => {
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         onEndReached={onEndReached}
-        numColumns={3}
+        numColumns={DeviceInfo.isTablet() ? 5 : 3}
       />
     </Scene>
   );

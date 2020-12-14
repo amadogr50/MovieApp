@@ -7,6 +7,7 @@ import {
   ImageHeaderScrollView,
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
+import DeviceInfo from 'react-native-device-info';
 import {
   CacheImage,
   CastItem,
@@ -14,11 +15,13 @@ import {
   HorizontalDivider,
   HorizontalSeparator,
   ImageItem,
+  MovieInfoPhone,
+  MovieInfoTablet,
   Scene,
   VideoItem,
 } from '../components';
 import movieDBImagesModule from '../modules/movie-db-images-module';
-import {Body, Headline, Label, Quote, Subtitle, Title} from '../typography';
+import {Headline, Label, Quote, Subtitle, Title} from '../typography';
 import dimensions from '../theme/dimensions';
 import theme from '../theme/theme';
 import globalStyles from '../theme/global-styles';
@@ -28,12 +31,6 @@ import translations from '../i18n/translations';
 const styles = StyleSheet.create({
   ratingContainer: {
     backgroundColor: theme.colors.backgroundVariantA,
-  },
-  field: {
-    fontWeight: '700',
-  },
-  value: {
-    color: theme.colors.textAlternative,
   },
   ratingElement: {
     flex: 1,
@@ -48,18 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     margin: dimensions.s,
-  },
-  poster: {
-    flex: 1,
-    aspectRatio: 2 / 3,
-    borderRadius: dimensions.xxs,
-  },
-  info: {
-    marginHorizontal: dimensions.s,
-    flex: 2,
-  },
-  row: {
-    flexDirection: 'row',
   },
 });
 
@@ -159,47 +144,11 @@ const MovieDetail = ({route}) => {
           </View>
           <HorizontalDivider />
           <View style={styles.content}>
-            <View style={[styles.row, globalStyles.verticalSpacing]}>
-              <CacheImage
-                style={styles.poster}
-                uri={movieDBImagesModule.getImageUrl(
-                  movieDBImagesModule.getImageWidth(screenWidth),
-                  movie?.data?.poster_path,
-                )}
-              />
-              <View style={styles.info}>
-                <View style={styles.row}>
-                  <Body style={styles.field}>{t(translations.TITLE)}: </Body>
-                  <Body style={styles.value}>{movie?.data?.title}</Body>
-                </View>
-                <View style={styles.row}>
-                  <Body style={styles.field}>
-                    {t(translations.ORIGINAL_TITLE)}:{' '}
-                  </Body>
-                  <Body style={styles.value}>
-                    {movie?.data?.original_title}
-                  </Body>
-                </View>
-                <View style={styles.row}>
-                  <Body style={styles.field}>
-                    {t(translations.RELEASE_DATE)}:{' '}
-                  </Body>
-                  <Body style={styles.value}>{movie?.data?.release_date}</Body>
-                </View>
-                <View style={styles.row}>
-                  <Body style={styles.field}>
-                    {t(translations.RUNNING_TIME)}:{' '}
-                  </Body>
-                  <Body style={styles.value}>{movie?.data?.runtime}min</Body>
-                </View>
-              </View>
-            </View>
-            <Subtitle style={globalStyles.verticalSpacing}>
-              {t(translations.THE_PLOT)}
-            </Subtitle>
-            <Body style={globalStyles.verticalSpacing}>
-              {movie?.data?.overview}
-            </Body>
+            {DeviceInfo.isTablet() ? (
+              <MovieInfoTablet movie={movie?.data} />
+            ) : (
+              <MovieInfoPhone movie={movie.data} />
+            )}
             {isImagesSuccess &&
               (images.data.backdrops.length > 0 ||
                 images.data.posters.length > 0) && (

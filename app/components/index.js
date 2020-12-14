@@ -9,6 +9,8 @@ import CrewItem from './crew-item';
 import HorizontalSeparator from './horizontal-separator';
 import VerticalSeparator from './vertical-separator';
 import Scene from './scene';
+import MovieInfoPhone from './movie-info-phone';
+import MovieInfoTablet from './movie-info-tablet';
 
 export {
   MovieItem,
@@ -22,4 +24,6 @@ export {
   HorizontalSeparator,
   VerticalSeparator,
   Scene,
+  MovieInfoPhone,
+  MovieInfoTablet,
 };
