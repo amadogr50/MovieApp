@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import movieDBImagesModule from '../modules/movie-db-images-module';
 import {MoviePropTypes} from '../prop-types';
 import dimensions from '../theme/dimensions';
@@ -15,14 +15,12 @@ const styles = StyleSheet.create({
 
 const MovieItem = ({width, movie, ...props}) => {
   return (
-    <View {...props}>
+    <TouchableOpacity {...props}>
       <CacheImage
         style={styles.image}
-        source={{
-          uri: movieDBImagesModule.getImageUrl(width, movie.poster_path),
-        }}
+        uri={movieDBImagesModule.getImageUrl(width, movie.poster_path)}
       />
-    </View>
+    </TouchableOpacity>
   );
 };
 

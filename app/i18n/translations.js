@@ -1,0 +1,14 @@
+const translations = {
+  REVIEWS: 'REVIEWS',
+  TITLE: 'TITLE',
+  ORIGINAL_TITLE: 'ORIGINAL_TITLE',
+  RELEASE_DATE: 'RELEASE_DATE',
+  RUNNING_TIME: 'RUNNING_TIME',
+  THE_PLOT: 'THE_PLOT',
+  IMAGES: 'IMAGES',
+  VIDEOS: 'VIDEOS',
+  THE_CAST: 'THE_CAST',
+  THE_CREW: 'THE_CREW',
+};
+
+export default translations;

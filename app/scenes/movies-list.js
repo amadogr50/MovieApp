@@ -1,17 +1,13 @@
 import React, {useState} from 'react';
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from 'react-native';
+import {FlatList, StyleSheet, useWindowDimensions} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import {usePaginatedQuery} from 'react-query';
 import movieDBInstance from '../services/movie-db-instance';
 import movieDBEndpoints from '../services/movie-db-endpoints';
 import movieDBImagesModule from '../modules/movie-db-images-module';
 import dimensions from '../theme/dimensions';
-import {MovieItem} from '../components';
+import {MovieItem, Scene} from '../components';
+import ROUTES from '../navigation/routes';
 
 const styles = StyleSheet.create({
   image: {
@@ -20,7 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const MoviesList = ({}) => {
+const MoviesList = ({navigation}) => {
+  const [enabled, setEnabled] = useState(true);
+
   const windowWidth = useWindowDimensions().width;
   const imageWidth = movieDBImagesModule.getImageWidth(windowWidth);
 
@@ -34,12 +32,29 @@ const MoviesList = ({}) => {
     setMovies([...movies, ...data.data.results]);
   };
 
-  const {isLoading, isError} = usePaginatedQuery(['movies', page], getPopular, {
-    onSuccess,
-  });
+  const {isLoading, isError, error} = usePaginatedQuery(
+    ['movies', page],
+    getPopular,
+    {
+      enabled,
+      onError: () => {
+        setEnabled(false);
+      },
+      onSuccess,
+    },
+  );
 
   const renderItem = ({item: movie}) => {
-    return <MovieItem style={styles.image} movie={movie} width={imageWidth} />;
+    return (
+      <MovieItem
+        onPress={() => {
+          navigation.navigate(ROUTES.MOVIE_DETAIL, {id: movie.id});
+        }}
+        style={styles.image}
+        movie={movie}
+        width={imageWidth}
+      />
+    );
   };
 
   const keyExtractor = (item) => item.id;
@@ -49,21 +64,21 @@ const MoviesList = ({}) => {
   };
 
   return (
-    <View>
-      {isLoading ? (
-        <Text>Loading</Text>
-      ) : isError ? (
-        <Text>Error</Text>
-      ) : (
-        <FlatList
-          data={movies}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          onEndReached={onEndReached}
-          numColumns={3}
-        />
-      )}
-    </View>
+    <Scene
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
+      onRetry={() => {
+        setEnabled(true);
+      }}>
+      <FlatList
+        data={movies}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        onEndReached={onEndReached}
+        numColumns={DeviceInfo.isTablet() ? 5 : 3}
+      />
+    </Scene>
   );
 };
 
