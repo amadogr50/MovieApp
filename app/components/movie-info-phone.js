@@ -85,7 +85,7 @@ const MovieInfoPhone = ({movie}) => {
 };
 
 MovieInfoPhone.propTypes = {
-  movie: MoviePropTypes.isRequired,
+  movie: MoviePropTypes,
 };
 
 export default MovieInfoPhone;

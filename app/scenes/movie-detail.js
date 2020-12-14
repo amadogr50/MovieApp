@@ -9,7 +9,7 @@ import {
 } from 'react-native-image-header-scroll-view';
 import DeviceInfo from 'react-native-device-info';
 import {
-  CacheImage,
+  CacheImageBackground,
   CastItem,
   CrewItem,
   HorizontalDivider,
@@ -27,6 +27,7 @@ import theme from '../theme/theme';
 import globalStyles from '../theme/global-styles';
 import {useTranslation} from 'react-i18next';
 import translations from '../i18n/translations';
+import {useHeaderHeight} from '@react-navigation/stack';
 
 const styles = StyleSheet.create({
   ratingContainer: {
@@ -42,18 +43,22 @@ const styles = StyleSheet.create({
     padding: dimensions.s,
   },
   foreground: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    margin: dimensions.s,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: dimensions.s,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
 });
 
 const MovieDetail = ({route}) => {
-  const {t} = useTranslation();
-  const [enabled, setEnabled] = useState(true);
-
   const screenHeight = useWindowDimensions().height;
   const screenWidth = useWindowDimensions().width;
+  const headerHeight = useHeaderHeight();
+
+  const {t} = useTranslation();
+  const [enabled, setEnabled] = useState(true);
 
   const {id} = route.params;
 
@@ -105,30 +110,29 @@ const MovieDetail = ({route}) => {
       }}>
       <ImageHeaderScrollView
         maxHeight={screenHeight * 0.5}
-        minHeight={60}
-        maxOverlayOpacity={0.6}
-        minOverlayOpacity={0.3}
+        minHeight={headerHeight}
+        maxOverlayOpacity={1}
+        minOverlayOpacity={0}
         scrollViewBackgroundColor={theme.colors.background}
-        renderForeground={() => (
-          <View style={styles.foreground}>
-            <Quote>{movie?.data?.release_date.substring(0, 4)}</Quote>
-            <Headline>{movie?.data?.title}</Headline>
-          </View>
-        )}
-        renderHeader={() => {
-          return (
-            <CacheImage
-              style={{
-                height: screenHeight * 0.5,
-                width: screenWidth,
-              }}
-              uri={movieDBImagesModule.getImageUrl(
-                movieDBImagesModule.getImageWidth(screenWidth),
-                movie?.data?.backdrop_path,
-              )}
-            />
-          );
-        }}>
+        fadeOutForeground
+        disableHeaderGrow={false}
+        showsVerticalScrollIndicator={false}
+        renderHeader={() => (
+          <CacheImageBackground
+            style={{
+              height: screenHeight * 0.5,
+              width: screenWidth,
+            }}
+            uri={movieDBImagesModule.getImageUrl(
+              movieDBImagesModule.getImageWidth(screenWidth),
+              movie?.data?.backdrop_path,
+            )}>
+            <View style={styles.foreground}>
+              <Quote>{movie?.data?.release_date.substring(0, 4)}</Quote>
+              <Headline>{movie?.data?.title}</Headline>
+            </View>
+          </CacheImageBackground>
+        )}>
         <TriggeringView>
           <HorizontalDivider />
           <View style={[styles.row, styles.ratingContainer]}>
@@ -158,11 +162,12 @@ const MovieDetail = ({route}) => {
                   </Subtitle>
                   <FlatList
                     horizontal
+                    showsHorizontalScrollIndicator={false}
                     style={globalStyles.verticalSpacing}
                     data={[...images.data.backdrops, ...images.data.posters]}
                     ItemSeparatorComponent={HorizontalSeparator}
                     renderItem={({item: image}) => <ImageItem image={image} />}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.filePath}
                   />
                 </>
               )}
@@ -173,11 +178,12 @@ const MovieDetail = ({route}) => {
                 </Subtitle>
                 <FlatList
                   horizontal
+                  showsHorizontalScrollIndicator={false}
                   style={globalStyles.verticalSpacing}
                   data={videos.data.results}
                   ItemSeparatorComponent={HorizontalSeparator}
                   renderItem={({item: video}) => <VideoItem video={video} />}
-                  keyExtractor={(item) => item.id}
+                  keyExtractor={(item) => `${item.id}-${item.key}`}
                 />
               </>
             )}
@@ -190,11 +196,12 @@ const MovieDetail = ({route}) => {
                     </Subtitle>
                     <FlatList
                       horizontal
+                      showsHorizontalScrollIndicator={false}
                       style={globalStyles.verticalSpacing}
                       data={credits.data.cast}
                       ItemSeparatorComponent={HorizontalSeparator}
                       renderItem={({item: cast}) => <CastItem cast={cast} />}
-                      keyExtractor={(item) => item.id}
+                      keyExtractor={(item) => `${item.id}-${item.cast_id}`}
                     />
                   </>
                 )}
@@ -205,6 +212,7 @@ const MovieDetail = ({route}) => {
                     </Subtitle>
                     <FlatList
                       horizontal
+                      showsHorizontalScrollIndicator={false}
                       style={globalStyles.verticalSpacing}
                       data={credits.data.crew}
                       ItemSeparatorComponent={HorizontalSeparator}

@@ -90,7 +90,7 @@ const MovieInfoTablet = ({movie}) => {
 };
 
 MovieInfoTablet.propTypes = {
-  movie: MoviePropTypes.isRequired,
+  movie: MoviePropTypes,
 };
 
 export default MovieInfoTablet;
