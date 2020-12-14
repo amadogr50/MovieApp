@@ -8,6 +8,7 @@ import CastItem from './cast-item';
 import CrewItem from './crew-item';
 import HorizontalSeparator from './horizontal-separator';
 import VerticalSeparator from './vertical-separator';
+import Scene from './scene';
 
 export {
   MovieItem,
@@ -20,4 +21,5 @@ export {
   CrewItem,
   HorizontalSeparator,
   VerticalSeparator,
+  Scene,
 };
