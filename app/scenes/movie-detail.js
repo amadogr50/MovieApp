@@ -22,10 +22,18 @@ import {Body, Headline, Label, Quote, Subtitle, Title} from '../typography';
 import dimensions from '../theme/dimensions';
 import theme from '../theme/theme';
 import globalStyles from '../theme/global-styles';
+import {useTranslation} from 'react-i18next';
+import translations from '../i18n/translations';
 
 const styles = StyleSheet.create({
   ratingContainer: {
     backgroundColor: theme.colors.backgroundVariantA,
+  },
+  field: {
+    fontWeight: '700',
+  },
+  value: {
+    color: theme.colors.textAlternative,
   },
   ratingElement: {
     flex: 1,
@@ -56,6 +64,7 @@ const styles = StyleSheet.create({
 });
 
 const MovieDetail = ({route}) => {
+  const {t} = useTranslation();
   const [enabled, setEnabled] = useState(true);
 
   const screenHeight = useWindowDimensions().height;
@@ -145,7 +154,9 @@ const MovieDetail = ({route}) => {
                 {movie?.data?.vote_average}
                 <Label>/10</Label>
               </Title>
-              <Label>{movie?.data?.vote_count} Reviews</Label>
+              <Label>
+                {movie?.data?.vote_count} {t(translations.REVIEWS)}
+              </Label>
             </View>
           </View>
           <HorizontalDivider />
@@ -162,21 +173,35 @@ const MovieDetail = ({route}) => {
               />
               <View style={styles.info}>
                 <View style={styles.row}>
-                  <Body>Title: </Body>
-                  <Body>{movie?.data?.title}</Body>
+                  <Body style={styles.field}>{t(translations.TITLE)}: </Body>
+                  <Body style={styles.value}>{movie?.data?.title}</Body>
                 </View>
                 <View style={styles.row}>
-                  <Body>Release Date: </Body>
-                  <Body>{movie?.data?.release_date}</Body>
+                  <Body style={styles.field}>
+                    {t(translations.ORIGINAL_TITLE)}:{' '}
+                  </Body>
+                  <Body style={styles.value}>
+                    {movie?.data?.original_title}
+                  </Body>
                 </View>
                 <View style={styles.row}>
-                  <Body>Rutting Time: </Body>
-                  <Body>{movie?.data?.runtime}min</Body>
+                  <Body style={styles.field}>
+                    {t(translations.RELEASE_DATE)}:{' '}
+                  </Body>
+                  <Body style={styles.value}>{movie?.data?.release_date}</Body>
+                </View>
+                <View style={styles.row}>
+                  <Body style={styles.field}>
+                    {t(translations.RUNNING_TIME)}:{' '}
+                  </Body>
+                  <Body style={styles.value}>{movie?.data?.runtime}min</Body>
                 </View>
               </View>
             </View>
-            <Subtitle style={globalStyles.verticalSpacing}>The Plot</Subtitle>
-            <Body style={globalStyles.verticalSpacinga}>
+            <Subtitle style={globalStyles.verticalSpacing}>
+              {t(translations.THE_PLOT)}
+            </Subtitle>
+            <Body style={globalStyles.verticalSpacing}>
               {movie?.data?.overview}
             </Body>
             {isImagesSuccess &&
@@ -184,7 +209,7 @@ const MovieDetail = ({route}) => {
                 images.data.posters.length > 0) && (
                 <>
                   <Subtitle style={globalStyles.verticalSpacing}>
-                    Images
+                    {t(translations.IMAGES)}
                   </Subtitle>
                   <FlatList
                     horizontal
@@ -198,7 +223,9 @@ const MovieDetail = ({route}) => {
               )}
             {isVideosSuccess && videos.data.results.length > 0 && (
               <>
-                <Subtitle style={globalStyles.verticalSpacing}>Videos</Subtitle>
+                <Subtitle style={globalStyles.verticalSpacing}>
+                  {t(translations.VIDEOS)}
+                </Subtitle>
                 <FlatList
                   horizontal
                   style={globalStyles.verticalSpacing}
@@ -214,7 +241,7 @@ const MovieDetail = ({route}) => {
                 {credits.data.cast.length > 0 && (
                   <>
                     <Subtitle style={globalStyles.verticalSpacing}>
-                      The Cast
+                      {t(translations.THE_CAST)}
                     </Subtitle>
                     <FlatList
                       horizontal
@@ -229,7 +256,7 @@ const MovieDetail = ({route}) => {
                 {credits.data.crew.length > 0 && (
                   <>
                     <Subtitle style={globalStyles.verticalSpacing}>
-                      The Crew
+                      {t(translations.THE_CREW)}
                     </Subtitle>
                     <FlatList
                       horizontal
